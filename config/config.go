@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
@@ -34,4 +35,8 @@ func GetConfig () (config, error){
 	err = yaml.Unmarshal(config, &conf)
 
 	return conf, err
+}
+
+func GetMysqlDSN(conf database) string {
+	return fmt.Sprintf("%s:%s@/%s(%s)?charset=utf8mb4&parseTime=True&loc=Local", conf.Username, conf.Password, conf.Dbname, conf.Host)
 }
