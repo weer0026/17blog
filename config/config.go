@@ -18,6 +18,7 @@ type database struct {
 	Username string `yaml:"user"`
 	Password string `yaml:"password"`
 	Dbname   string `yaml:"dbname"`
+	ShowSQL  string `yaml:"showSQL"`
 }
 
 func GetConfig () (config, error){
@@ -36,7 +37,7 @@ func GetConfig () (config, error){
 
 	return conf, err
 }
-
+//user:password@(localhost:3306)/pipe?charset=utf8&parseTime=True&loc=Local
 func GetMysqlDSN(conf database) string {
-	return fmt.Sprintf("%s:%s@/%s(%s)?charset=utf8mb4&parseTime=True&loc=Local", conf.Username, conf.Password, conf.Dbname, conf.Host)
+	return fmt.Sprintf("%s:%s@(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", conf.Username, conf.Password, conf.Host, conf.Dbname)
 }

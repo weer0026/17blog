@@ -1,15 +1,22 @@
 package main
 
 import (
-	"17blog-backend/config"
-	"fmt"
+	"17blog-backend/log"
+	"17blog-backend/service"
+	"math/rand"
+	"os"
+	"time"
 )
 
-func main() {
-	conf, err := config.GetConfig()
+var logger *log.Logger
 
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("%v", conf)
+func init() {
+	rand.Seed(time.Now().UTC().UnixNano())
+	log.SetLevel("debug")
+	logger = log.NewLogger(os.Stdout)
+	service.ConnectDB()
+}
+
+func main() {
+	logger.Info("start")
 }

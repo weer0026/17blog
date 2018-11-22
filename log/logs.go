@@ -9,8 +9,7 @@ import (
 )
 
 const (
-	Trace = iota
-	Debug
+	Debug = iota
 	Info
 	Warn
 	Error
@@ -53,8 +52,6 @@ func getLevel(level string) int {
 	switch level {
 	case "off":
 		return Off
-	case "trace":
-		return Trace
 	case "debug":
 		return Debug
 	case "info":
@@ -72,24 +69,6 @@ func getLevel(level string) int {
 
 func (l *Logger) SetLevel(level string) {
 	l.Level = getLevel(level)
-}
-
-func (l *Logger) Trace(content ...interface{}) {
-	if Trace < l.Level {
-		return
-	}
-
-	l.Logger.SetPrefix("[Trace]")
-	l.Logger.Output(2, fmt.Sprint(content...))
-}
-
-func (l *Logger) Tracef(format string, content ...interface{}) {
-	if Trace < l.Level {
-		return
-	}
-
-	l.Logger.SetPrefix("[Trace]")
-	l.Logger.Output(2, fmt.Sprintf(format, content...))
 }
 
 func (l *Logger) Debug(v ...interface{}) {
