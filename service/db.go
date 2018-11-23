@@ -3,6 +3,7 @@ package service
 import (
 	"17blog-backend/config"
 	"17blog-backend/log"
+	"17blog-backend/model"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"os"
@@ -27,6 +28,7 @@ func ConnectDB() {
 	}
 	defer db.Close()
 	logger.Debug("DB Connect success")
+	db.AutoMigrate(model.Models...)
 	db.DB().SetMaxIdleConns(10)
 	db.DB().SetMaxOpenConns(50)
 	showSql, err := strconv.ParseBool(conf.Db.ShowSQL)
@@ -35,4 +37,10 @@ func ConnectDB() {
 		logger.Fatal(err)
 	}
 	db.LogMode(showSql)
+}
+
+func DisconnectDB() {
+	if err := db.Close(); err != nil {
+		logger.Errorf("Disconnect DB failed:" + err.Error())
+	}
 }
